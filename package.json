@@ -1,11 +1,29 @@
 {
   "name": "volcraft",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "MIT"
+  "author": "Vol4n3",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vol4n3/volcraft.git"
+  },
+  "keywords": [
+    "chat",
+    "volcraft"
+  ],
+  "bugs": {
+    "url": "https://github.com/Vol4n3/volcraft/issues"
+  },
+  "homepage": "https://github.com/Vol4n3/volcraft#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^4.14.0",
+    "mongodb": "^2.2.11",
+    "mongoose": "^4.6.5",
+    "socket.io": "^1.5.1"
+  }
 }
