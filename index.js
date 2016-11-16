@@ -2,26 +2,28 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
+var cookieParser = require("cookie-parser");
+var session = require("express-session")({
+    secret: "my-secret",
+    resave: true,
+    saveUninitialized: true
+});
+var sharedsession = require("express-socket.io-session");
 
+// Use express-session middleware for express
+app.use(session);
+
+// Use shared session middleware for socket.io
+// setting autoSave:true
+io.use(sharedsession(session, cookieParser()));
 mongoose.connect("mongodb://localhost:27017/volcraft");
 var db = mongoose.connection;
 // mongo error
 db.on('error', console.error.bind(console, 'connection error:'));
 
-// use sessions for tracking logins
-app.use(session({
-    secret: 'volcraft', //todo : Change the secret on production
-    resave: true,
-    saveUninitialized: false,
-    store: new MongoStore({
-        mongooseConnection: db
-    })
-}));
 // parse incoming requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

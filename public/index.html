@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <title>volcraft</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <script src="/js/jquery.min.js" defer></script>
+    <script src="/js/bootstrap.min.js" defer></script>
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="/js/app.js" defer></script>
+</head>
+
+<body>
+    <div class="chat_box">
+        <div id="chat_textes" class="chat_textes">
+            <div class="chat_message">
+                <span class="chat_pseudo">Vol4n3</span><span class="chat_say">Bonjour a tous</span>
+            </div>
+            <div class="chat_message">
+                <span class="chat_pseudo">Syana</span><span class="chat_say">Bonjour a tous</span>
+            </div>
+        </div>
+        <div class="chat_controls">
+            <div id="chat_edit" class="chat_edit hide" contenteditable="true"></div>
+            <div class="chat_btns hide">
+                <div class="chat_btn "></div>
+            </div>
+        </div>
+        <div class="modal" id="chat_auth">
+            <fieldset>
+                <legend>Ton pseudo</legend>
+                <form action="" id="auth_log">
+                    <div>
+                        <label for="chat_pseudo">pseudo</label>
+                        <input type="text" id="chat_pseudo" name="pseudo" placeholder="Pseudo">
+                    </div>
+                    <p>Si vous souhaitez reserver votre pseudo ou vous connecter mettez votre de passe</p>
+                    <div>
+                        <label for="chat_password">Mot de passe</label>
+                        <input type="password" id="chat_password" name="password" placeholder="Non obligatoire">
+                    </div>
+                    <input type="submit">
+                </form>
+            </fieldset>
+        </div>
+
+    </div>
+</body>
+
+</html>
