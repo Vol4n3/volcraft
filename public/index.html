@@ -2,54 +2,101 @@
 <html lang="fr">
 
 <head>
-    <title>volcraft</title>
+    <title>Sans Titre</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Style declaration-->
     <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
+
+    <!-- Js declaration-->
+
+    <!-- sokect.io must not be defer -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        //===============global var declaration
+        var socket = io.connect('http://localhost:8081');
+    </script>
     <script src="/js/jquery.min.js" defer></script>
     <script src="/js/bootstrap.min.js" defer></script>
-    <script src="/socket.io/socket.io.js" defer></script>
     <script src="/js/app.js" defer></script>
+
+    <!-- P5 sketch -->
+    <script defer src="/js/p5.min.js"></script>
+    <script defer src="/js/addons/p5.dom.min.js"></script>
+    <script defer src="/js/addons/p5.sound.min.js"></script>
+    <script defer src="/js/sketch.js"></script>
 </head>
 
 <body>
-    <div class="chat_box">
-        <div id="chat_textes" class="chat_textes">
-            <div class="chat_message">
-                <span class="chat_pseudo">Vol4n3</span><span class="chat_say">Bonjour a tous</span>
+    <div class="container-fluid">
+        <header>
+            <h1 class="text-center">Oh ! un visiteur, bienvenue sur ce site sans nom en dévelopement</h1>
+
+
+        </header>
+        <div class="row">
+            <div class="col-md-6" id="sketch1">
+                <h3 class="">ici , ben il y'a des tests graphique, des fois des mini jeux!</h3>
             </div>
-            <div class="chat_message">
-                <span class="chat_pseudo">Syana</span><span class="chat_say">Bonjour a tous</span>
-            </div>
-        </div>
-        <div class="chat_controls">
-            <div id="chat_edit" class="chat_edit hide" contenteditable="true"></div>
-            <div class="chat_btns hide">
-                <div class="chat_btn "></div>
-            </div>
-        </div>
-        <div class="modal" id="chat_auth">
-            <fieldset>
-                <legend>Ton pseudo</legend>
-                <form action="" id="auth_log">
-                    <div>
-                        <label for="chat_pseudo">pseudo</label>
-                        <input type="text" id="chat_pseudo" name="pseudo" placeholder="Pseudo">
+            <h3 class="text-center">Tu peux participer , suivre le dévelopement du site avec ce mini chat mis en place</h3>
+            <div class="col-md-6">
+                <div class="chat_box">
+                    <div id="chat_textes" class="chat_textes">
+
+                        <!-- chat messages comes here -->
                     </div>
-                    <p>Si vous souhaitez reserver votre pseudo ou vous connecter mettez votre de passe</p>
-                    <div>
-                        <label for="chat_password">Mot de passe</label>
-                        <input type="password" id="chat_password" name="password" placeholder="Non obligatoire">
+                    <div class="chat_controls row">
+                        <div id="chat_edit" class="chat_edit  col-md-8" contenteditable="true"></div>
+                        <div class="chat_btns col-md-4">
+                            <div class="chat_btn"></div>
+                        </div>
                     </div>
-                    <input type="submit">
-                </form>
-            </fieldset>
+
+                    <!-- Button trigger modal -->
+                    <div class="chat_logbtn">
+                        <button type="button" class="btn green-theme" id="login_btn" data-toggle="modal" data-target="#login_modal">Connect toi!</button>
+                        <button type="button" class="btn btn-warning pull-right jq-hide" id="logout_btn">Bye !</button>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
     </div>
+    <!-- Modal login -->
+    <section class="modal fade" id="login_modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Authentification</h4>
+                </div>
+                <div class="modal-body">
+                    <fieldset>
+                        <legend>*Si tu veux <b>réserver</b> ton pseudo ou te connecter indique ton mot de passe</legend>
+                        <form id="auth_log">
+                            <div>
+                                <label for="chat_pseudo">Pseudo</label>
+                                <input type="text" id="chat_pseudo" name="pseudo" placeholder="John doe">
+                            </div>
+                            <p id="warning_pseudo" class="text-warning jq-hide">dsl, ce pseudo est déja réservé</p>
+                            <div>
+                                <label for="chat_password">Mot de passe*</label>
+                                <input type="password" id="chat_password" name="password" placeholder="ce n'est pas obligé">
+                            </div>
+                        </form>
+                    </fieldset>
+                </div>
+                <div class="modal-footer green-theme">
+                    <button type="button" class="btn btn-transparent" data-dismiss="modal">Fermer</button>
+                    <button type="submit" form="auth_log" class="btn btn-primary" name="auth_submit" id="auth_submit">Connexion</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end Modal-->
 </body>
 
 </html>
