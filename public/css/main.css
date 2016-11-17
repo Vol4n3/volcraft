@@ -29,6 +29,17 @@ clear {
     clear: both;
 }
 
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 20px;
+}
+
+.footer_mask {
+    height: 20px;
+}
+
 
 /*
 * BootStrap Theme
@@ -89,16 +100,22 @@ clear {
 
 .chat_message {
     border-top: 1px lightgrey dashed;
+    clear: both;
 }
 
 .chat_notification {
-    border-top: 1px lightgrey solid;
-    font-size: 12px;
+    font-size: 11px;
     font-style: italic;
     color: #999;
+    float: left;
+    margin: 0 5px;
 }
 
-.chat_pseudo::AFTER {
+.chat_notification .chat_pseudo::AFTER {
+    content: ' ';
+}
+
+.chat_message .chat_pseudo::AFTER {
     content: ':';
     margin: 0 5px;
 }
@@ -114,6 +131,7 @@ clear {
     background-color: #DDD;
     border: lightgrey 1px solid;
     overflow-y: scroll;
+    padding: 0px 30px;
 }
 
 .chat_btns {
@@ -135,7 +153,9 @@ clear {
 }
 
 .chat_logbtn {
-    height: 25px;
+    height: 50px;
+    clear: both;
+    padding: 25px;
 }
 
 .green-theme {

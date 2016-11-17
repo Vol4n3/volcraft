@@ -52,7 +52,11 @@ var logs = [];
 
 io.on('connection', function(socket) {
     //test ip
-    console.log(socket.handshake.address);
+    var clientIp = socket.request.connection.remoteAddress;
+    console.log(clientIp);
+    for (var item of logs) {
+        socket.emit('globalMessage', item)
+    }
     //===================Login function =============
     function login(pseudo) {
         socket.handshake.session.user = {
@@ -64,13 +68,15 @@ io.on('connection', function(socket) {
             msg: "Login succesful",
             type: "login"
         });
-
-        io.emit('globalMessage', {
+        var loginMessage = {
             pseudo: pseudo,
-            message: "à rejoind le salon",
+            message: "à rejoint le salon",
             msgClass: "chat_notification",
-            date: date.now()
-        });
+            date: Date.now()
+        };
+
+        io.emit('globalMessage', loginMessage);
+        logs.push(loginMessage)
     }
     if (socket.handshake.session.user) {
         login(socket.handshake.session.user.pseudo);
@@ -109,8 +115,19 @@ io.on('connection', function(socket) {
         }
     });
     socket.on('logout', function(data) {
-        delete socket.handshake.session.user;
-        socket.emit('logout');
+        if (socket.handshake.session.user) {
+            var logoutMessage = {
+                pseudo: socket.handshake.session.user.pseudo,
+                message: "est parti(e)",
+                msgClass: "chat_notification",
+                date: Date.now()
+            };
+
+            io.emit('globalMessage', logoutMessage);
+            logs.push(logoutMessage)
+            delete socket.handshake.session.user;
+            socket.emit('logout');
+        }
     })
     socket.on('message', function(data) {
         if (data) {
@@ -126,4 +143,18 @@ io.on('connection', function(socket) {
 
         }
     });
+    // on disconnect
+    socket.on('disconnect', function() {
+        if (socket.handshake.session.user) {
+            var logoutMessage = {
+                pseudo: socket.handshake.session.user.pseudo,
+                message: "est parti(e)",
+                msgClass: "chat_notification",
+                date: Date.now()
+            };
+
+            io.emit('globalMessage', logoutMessage);
+            logs.push(logoutMessage)
+        }
+    })
 });

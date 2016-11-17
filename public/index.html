@@ -16,7 +16,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         //===============global var declaration
-        var socket = io.connect('http://localhost:8081');
+        var socket = io();
     </script>
     <script src="/js/jquery.min.js" defer></script>
     <script src="/js/bootstrap.min.js" defer></script>
@@ -26,6 +26,7 @@
     <script defer src="/js/p5.min.js"></script>
     <script defer src="/js/addons/p5.dom.min.js"></script>
     <script defer src="/js/addons/p5.sound.min.js"></script>
+    <script defer src="/js/p5.collide2d.js"></script>
     <script defer src="/js/sketch.js"></script>
 </head>
 
@@ -66,7 +67,7 @@
 
     </div>
     <!-- Modal login -->
-    <section class="modal fade" id="login_modal" tabindex="-1" role="dialog">
+    <section class="modal fade container" id="login_modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -97,6 +98,10 @@
         </div>
     </section>
     <!-- end Modal-->
+    <div class="footer_mask"></div>
+    <footer class="green-theme">
+        <p class="text-center">Copyright 2016 - par Vol4n3. <a href="mailto:jcvolan@gmail.com">contact</a></p>
+    </footer>
 </body>
 
 </html>

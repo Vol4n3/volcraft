@@ -57,8 +57,10 @@
     document.getElementById('logout_btn').addEventListener('click', function(e) {
         socket.emit('logout');
     })
-
-    //===============Event socket 
+    $('canvas').on('dblclick', function(e) {
+            e.preventDefault();
+        })
+        //===============Event socket 
     socket.on('globalMessage', function(data) {
         new Message(data);
     });
