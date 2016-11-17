@@ -51,7 +51,7 @@ var users = [];
 var logs = [];
 
 io.on('connection', function(socket) {
-
+    //test ip
     console.log(socket.handshake.address);
     //===================Login function =============
     function login(pseudo) {
@@ -126,7 +126,4 @@ io.on('connection', function(socket) {
 
         }
     });
-
-
-
 });
