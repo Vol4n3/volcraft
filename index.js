@@ -69,7 +69,7 @@ io.on('connection', function(socket) {
             pseudo: pseudo,
             message: "à rejoind le salon",
             msgClass: "chat_notification",
-            date: data.now()
+            date: date.now()
         });
     }
     if (socket.handshake.session.user) {
