@@ -1,14 +1,28 @@
-    new p5();
-    var jcv_skecth1 = function(s) {
+var sketch = function(p) {
+    var song;
+    p.preload = function() {
+        song = p.loadSound('/assets/sound/nomoney.mp3');
+    }
+    p.setup = function() {
+        song.loop();
+        p.createCanvas(720, 200);
+        p.background(255, 100, 0);
+        song.pause();
 
-        s.setup = function() {
-            var square = createCanvas(480, 360);
-            square.parent('sketch1')
-        }
-
-        s.draw = function() {
-            background(0, 0, 0);
-        }
     };
+    p.draw = function() {
 
-    new p5(jcv_skecth1, 'sketch1');
+    }
+    p.mousePressed = function() {
+        if (song.isPlaying()) { // .isPlaying() returns a boolean
+            song.pause();
+            p.background(255, 100, 0);
+        } else {
+            song.play();
+            p.background(100, 255, 0);
+        }
+
+    };
+};
+
+var myp5 = new p5(sketch, 'sketch');

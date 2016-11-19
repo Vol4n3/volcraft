@@ -33,12 +33,23 @@ app.use(sessionConfig);
 io.use(sharedsession(sessionConfig, {
     autoSave: true
 }));
-
+// make user ID available in templates
+app.use(function(req, res, next) {
+    res.locals.currentUser = req.session.userId;
+    next();
+});
 
 // parse incoming requests
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
+
+// view engine setup
+app.set('view engine', 'pug');
+app.set('views', __dirname + '/views');
+// include routes
+var routes = require('./routes.js');
+app.use('/', routes);
 
 // listen on port 8081
 server.listen(8081, function() {
@@ -47,10 +58,11 @@ server.listen(8081, function() {
 
 
 var User = require('./models/user.js');
-var users = [];
+var users = {};
 var logs = [];
 
 io.on('connection', function(socket) {
+
     //test ip
     var clientIp = socket.request.connection.remoteAddress;
     console.log(clientIp);

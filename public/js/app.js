@@ -32,22 +32,29 @@
 
     //==============Event client 
     //send message
-    document.getElementById('chat_edit').addEventListener('keydown', function(e) {
+    var $chat_edit = $('#chat_edit');
 
+    function sendMessage(e) {
+        if (logged == true) {
+            socket.emit("message",
+                $chat_edit.text()
+            );
+            $chat_edit.text(" ")
+        } else {
+            $('#login_modal').modal('show');
+        }
+    }
+    $chat_edit.keydown(function(e) {
         if (e.keyCode == 13) {
             e.preventDefault();
-            if (logged == true) {
-                socket.emit("message",
-                    e.target.textContent
-                );
-                e.target.textContent = "";
-            } else {
-                $('#login_modal').modal('show');
-            }
+            sendMessage(e);
         }
     });
-    //Login block
-    document.getElementById('auth_log').addEventListener('submit', function(e) {
+    $('#chat_send').click(function(e) {
+            sendMessage();
+        })
+        //Login block
+    $('#auth_log').submit(function(e) {
         e.preventDefault();
         socket.emit('login', {
             pseudo: this['pseudo'].value,
@@ -55,10 +62,7 @@
         })
     });
     document.getElementById('logout_btn').addEventListener('click', function(e) {
-        socket.emit('logout');
-    })
-    $('canvas').on('dblclick', function(e) {
-            e.preventDefault();
+            socket.emit('logout');
         })
         //===============Event socket 
     socket.on('globalMessage', function(data) {
