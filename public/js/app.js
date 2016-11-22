@@ -125,7 +125,11 @@
             $('#chat_edit').html('@' + pseudo + '&nbsp;' + $('#chat_edit').text());
         }
     });
-    //===============Event socket 
+    $('canvas').mousemove(function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        })
+        //===============Event socket 
     socket.on('globalMessage', function(data) {
         new Message(data);
 
