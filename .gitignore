@@ -2,3 +2,4 @@ node_modules
 typings
 jsconfig.json
 typings.json
+launch.json

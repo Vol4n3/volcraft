@@ -58,17 +58,22 @@ server.listen(8081, function() {
 
 
 var User = require('./models/user.js');
+var Message = require('./models/message.js');
 var users = {};
-var logs = [];
+
 
 io.on('connection', function(socket) {
 
     //test ip
-    var clientIp = socket.request.connection.remoteAddress;
+    var clientIp = socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address;
     console.log(clientIp);
-    for (var item of logs) {
-        socket.emit('globalMessage', item)
-    }
+    Message.getLastest().then(function(log) {
+        log.reverse();
+        for (var item of log) {
+            socket.emit('globalMessage', item)
+        }
+    });
+
     //===================Login function =============
     function login(pseudo) {
         socket.handshake.session.user = {
@@ -76,6 +81,10 @@ io.on('connection', function(socket) {
             socketId: socket.id,
             loginAt: Date.now()
         }
+        users[pseudo] = {
+            pseudo: pseudo,
+            socketId: socket.id
+        };
         socket.emit('succes', {
             msg: "Login succesful",
             type: "login"
@@ -86,9 +95,9 @@ io.on('connection', function(socket) {
             msgClass: "chat_notification",
             date: Date.now()
         };
-
         io.emit('globalMessage', loginMessage);
-        logs.push(loginMessage)
+        io.emit('update_online', users)
+            //Message.add(loginMessage)
     }
     if (socket.handshake.session.user) {
         login(socket.handshake.session.user.pseudo);
@@ -123,7 +132,7 @@ io.on('connection', function(socket) {
             });
         } else {
             //If just give pseudo , login as anonym
-            login('* ' + data.pseudo);
+            login('*' + data.pseudo);
         }
     });
     socket.on('logout', function(data) {
@@ -134,9 +143,10 @@ io.on('connection', function(socket) {
                 msgClass: "chat_notification",
                 date: Date.now()
             };
-
+            delete users[socket.handshake.session.user.pseudo];
             io.emit('globalMessage', logoutMessage);
-            logs.push(logoutMessage)
+            io.emit('update_online', users)
+                //Message.add(logoutMessage)
             delete socket.handshake.session.user;
             socket.emit('logout');
         }
@@ -144,15 +154,46 @@ io.on('connection', function(socket) {
     socket.on('message', function(data) {
         if (data) {
             if (socket.handshake.session.user) {
-                var glob_mess = {
-                    message: data,
-                    pseudo: socket.handshake.session.user.pseudo,
-                    date: Date.now()
-                }
-                logs.push(glob_mess);
-                io.emit('globalMessage', glob_mess);
-            }
+                //Send a whisp
+                const whispRegex = /^@(\S*)/g;
+                let whispMatch;
+                let whisp = whispRegex.exec(data);
+                if (whisp) { //if @.. exist send a whisp
 
+                    if (users[whisp[1]]) {
+                        //to replace @truc message
+                        var whispText = data.replace(whispRegex, '');
+                        io.to(users[whisp[1]].socketId).emit('globalMessage', {
+                            message: whispText,
+                            pseudo: socket.handshake.session.user.pseudo,
+                            msgClass: "chat_whisper",
+                            date: Date.now()
+                        });
+                        socket.emit('globalMessage', {
+                            message: whispText,
+                            pseudo: "à " + whisp[1] + ":",
+                            msgClass: "chat_notification",
+                            date: Date.now()
+                        })
+                    } else { //say whisper isn't online
+                        socket.emit('globalMessage', {
+                            message: "n'est pas en ligne",
+                            pseudo: whisp[1],
+                            msgClass: "chat_notification",
+                            date: Date.now()
+                        })
+                    }
+                } else { //send a normal message
+
+                    var glob_mess = {
+                        message: data,
+                        pseudo: socket.handshake.session.user.pseudo,
+                        date: Date.now()
+                    }
+                    Message.add(glob_mess);
+                    io.emit('globalMessage', glob_mess);
+                }
+            }
         }
     });
     // on disconnect
@@ -166,7 +207,8 @@ io.on('connection', function(socket) {
             };
 
             io.emit('globalMessage', logoutMessage);
-            logs.push(logoutMessage)
+            io.emit('update_online', users)
+                //Message.add(logoutMessage)
         }
     })
 });

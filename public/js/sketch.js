@@ -1,26 +1,26 @@
-var sketch = function(p) {
-    var song;
-    p.preload = function() {
-        song = p.loadSound('/assets/sound/nomoney.mp3');
+function sketch(p) {
+    function Joueur() {
+        this.x = 50;
+        this.y = 50;
     }
+    var liquid;
+    var j = new Joueur();
+    //preload
+    p.preload = function() {
+
+        }
+        //setup
     p.setup = function() {
-        song.loop();
-        p.createCanvas(720, 200);
-        p.background(255, 100, 0);
-        song.pause();
+        p.createCanvas(800, 600);
 
     };
+    //draw
     p.draw = function() {
 
+        p.background(0)
+        p.ellipse(j.x, j.y, 55, 55);
     }
     p.mousePressed = function() {
-        if (song.isPlaying()) { // .isPlaying() returns a boolean
-            song.pause();
-            p.background(255, 100, 0);
-        } else {
-            song.play();
-            p.background(100, 255, 0);
-        }
 
     };
 };
