@@ -122,7 +122,7 @@
     $('#chat_box').click(function(e) {
         var pseudo = $(e.target).attr('chat_pseudo')
         if (pseudo) {
-            $('#chat_edit').html('@' + pseudo + '&nbsp;')
+            $('#chat_edit').html('@' + pseudo + '&nbsp;' + $('#chat_edit').text());
         }
     });
     //===============Event socket 
