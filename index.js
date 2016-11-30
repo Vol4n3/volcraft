@@ -60,8 +60,21 @@ server.listen(8081, function() {
 var User = require('./models/user.js');
 var Message = require('./models/message.js');
 var users = {};
+/// TEST PHYSICs
 
+var Vector = require('./class/Vector.js');
+var Point = require('./class/Point.js');
+var PhysicPoint = require('./class/PhysicPoint.js');
+var CircleVector = require('./class/CircleVector.js');
+var p1 = new PhysicPoint(50, 50);
 
+p1.velocity.x = 10;
+setInterval(function() {
+    io.emit('draw', p1)
+    p1.update();
+}, 100);
+
+// APP io
 io.on('connection', function(socket) {
 
     //test ip

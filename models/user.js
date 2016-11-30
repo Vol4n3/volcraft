@@ -88,7 +88,8 @@ var schema = new mongoose.Schema({
     pseudo: {
         type: String,
         unique: true,
-        required: true
+        required: true,
+        trim: true
     },
     phone_number: {
         type: String,
