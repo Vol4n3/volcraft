@@ -1,15 +1,18 @@
 var MathPhysics = require('./MathPhysics.js');
+var Point = require('./Point.js');
+var Segment = require('./Segment.js');
 
 class Vector extends MathPhysics {
 
     constructor(x, y) {
         super();
         this.type = "Vector";
-        this.x = x || 0;
-        this.y = y || 0;
+        this.x = this.round10(x) || 0;
+        this.y = this.round10(y) || 0;
         //initialize angle and length
         this.length = 0;
         this.angle = 0;
+        //update angle and length
         this.update();
     }
     update() {
@@ -33,6 +36,11 @@ class Vector extends MathPhysics {
     getAngle() {
         this.angle = Math.atan2(this.y, this.x);
         return this.angle;
+    }
+    getSegment() {
+        var p1 = new Point();
+        var p2 = new Point(this.x, this.y);
+        return new Segment(p1, p2);
     }
     add(vector) {
         if (vector.type == "Vector") {

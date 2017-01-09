@@ -15,19 +15,22 @@ class CircleVector extends MathPhysics {
         );
     }
     update() {
-        var tan = new Vector();
-        tan.setLength(this.speed);
-        if (this.speed > 0) {
-            tan.setAngle(this.angle + Math.PI / 2);
-        } else {
-            tan.setAngle(this.angle - Math.PI / 2);
+        if (this.speed > 0.10) {
+            var tan = new Vector();
+            tan.setLength(this.speed);
+            if (this.speed >= 0) {
+                tan.setAngle(this.angle + Math.PI * 0.5);
+            } else {
+                tan.setAngle(this.angle - Math.PI * 0.5);
+            }
+            var constraint = new Vector();
+            constraint.setLength(this.speed * this.speed / this.radius);
+            constraint.setAngle(this.angle + Math.PI);
+            var direction = tan.add(constraint);
+            this.tanPoint = this.tanPoint.translate(direction);
+            this.angle = this.center.angleTo(this.tanPoint);
+
         }
-        var constraint = new Vector();
-        constraint.setLength(this.speed * this.speed / this.radius);
-        constraint.setAngle(this.angle + Math.PI);
-        var direction = tan.add(constraint);
-        this.tanPoint = this.tanPoint.translate(direction);
-        this.angle = this.center.angleTo(this.tanPoint);
     }
     add(n) {
         this.speed += n;

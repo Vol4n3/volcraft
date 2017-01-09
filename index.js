@@ -62,17 +62,20 @@ var Message = require('./models/message.js');
 var users = {};
 /// TEST PHYSICs
 
-var Vector = require('./class/Vector.js');
-var Point = require('./class/Point.js');
+//var Vector = require('./class/Vector.js');
+//var Point = require('./class/Point.js');
+var Segment = require('./class/Segment.js');
 var PhysicPoint = require('./class/PhysicPoint.js');
 var CircleVector = require('./class/CircleVector.js');
-var p1 = new PhysicPoint(50, 50);
+//p1.velocity.x = 10;
+// setInterval(function() {
 
-p1.velocity.x = 10;
-setInterval(function() {
-    io.emit('draw', p1)
-    p1.update();
-}, 100);
+
+//     io.emit('draw', p1);
+
+
+//     p1.update();
+// }, 33);
 
 // APP io
 io.on('connection', function(socket) {
@@ -218,10 +221,10 @@ io.on('connection', function(socket) {
                 msgClass: "chat_notification",
                 date: Date.now()
             };
-
+            delete users[socket.handshake.session.user.pseudo];
             io.emit('globalMessage', logoutMessage);
-            io.emit('update_online', users)
-                //Message.add(logoutMessage)
+            io.emit('update_online', users);
+            //Message.add(logoutMessage)
         }
     })
 });

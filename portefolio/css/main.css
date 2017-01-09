@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css?family=Muli');
+
+/* 
+================GLobal rules 
+*/
+
+ul,
+ol {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    font-size: 1.40em;
+    color: #FF7400;
+    font-family: 'Muli', sans-serif;
+}
+
+.jc_right {
+    float: right;
+}
+
+.jc_right_text {
+    text-align: right;
+}
+
+.jc_left {
+    float: left;
+}
+
+.jc_left_text {
+    text-align: left;
+}
+
+.jc_center {
+    display: block;
+    margin: 0 auto;
+}
+
+.jc_center_text {
+    text-align: center;
+}
+
+.jc_clear {
+    clear: both;
+}
+
+
+/*
+========================= Header Nav
+ */
+
+header {
+    float: left;
+    background: white;
+    border-right: #FF7400 5px solid;
+    padding: 10px;
+    min-width: 50px;
+    height: 100%;
+    transition: min-width 0.4s;
+    -webkit-transition: min-width 0.4s;
+    transition-timing-function: cubic-bezier(0.45, -0.74, 0.57, 1.72);
+    -webkit-transition-timing-function: cubic-bezier(0.45, -0.74, 0.57, 1.72);
+}
+
+.jc_nav_anchor {
+    position: relative;
+    width: 100%;
+    opacity: 0;
+    left: -100px;
+    transition: opacity 2s, left 1s;
+    -webkit-transition: opacity 2s, left 1s;
+}
+
+.jc_nav_show {
+    opacity: 1;
+    left: 0px;
+}
+
+.jc_nav_expand {
+    min-width: 250px;
+}
+
+header nav li {
+    text-align: right;
+}
+
+.jc_main_logo {
+    width: 128px;
+    margin-bottom: 30px;
+}
+
+
+/*
+========================= Header Nav
+ */
