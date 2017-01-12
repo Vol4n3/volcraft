@@ -49,7 +49,7 @@
     OnlineMember.prototype.appendTo = function(parent) {
             parent.appendChild(this.cm);
         }
-        //Liste of online member
+        //List of online member
     function list_Online_Member(list) {
         $('#chat_onlines').children().remove();
         for (var i in list) {
